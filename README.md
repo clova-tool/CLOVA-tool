@@ -27,7 +27,7 @@ Our method requires one A100 GPU.
 - The config file for tools: [`configs/all_updated_model_config.yaml`](configs/all_updated_model_config.yaml)
  
 We use LLaMA2-7B for inference and reflection, and you can also try other LLMs, such as GPT-3.5-turbo.
-We use GPT-3.5-turbo for the LIST tool and search Internet. You can revise your api key in the config file [`configs/LLM_config.yaml`](configs/LLM_config.yaml).
+We use GPT-3.5-turbo for the LIST tool and collecting images from the Internet. You can revise your api key in the config file [`configs/LLM_config.yaml`](configs/LLM_config.yaml).
 
 # Dataset
 
