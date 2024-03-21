@@ -93,7 +93,6 @@ class LocInterpreter():
 ```
 class CountInterpreter():
     step_name = 'COUNT'
-
     def __init__(self):
        ...
 
