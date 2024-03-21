@@ -1,0 +1,29 @@
+all_club1.jpg;Tag two logos of Japanese football clubs in Kawasaki and Osaka.
+painting1.jpeg;Tag one painting of Da Vinci preserved in Santa Maria Grateful Church in Milan, Italy.
+painting5.jpeg;Tag one painting of Pablo Picasso drawed in 1921 describing three musicians.
+new_person_2.png;Tag the lead actors of the movie Green Book.
+new_person_10.jpg;Tag the director of the movie Farewell My Concubine.
+movie1.jpeg;Tag the movie poster of Chinese comedies directed by Stephen Chow in year 2017.
+new_school_5.jpg;Tag the logos of the top two universities in London according to QS 2010 rankings.
+all_NBA4.jpg;Tag two logos of NBA teams located in florida
+all_flag2.jpg;Tag the flags of two largest countries in Europe by area.
+all_flag19.jpg;Tag the flag of the country that won the first FIFA World.
+train_figure1_2.jpeg;Tag the logo of Gamba Osaka.
+train_figure1_2.jpeg;Tag the logo of Kawasaki Frontale.
+train_figure1_2.jpeg;Tag the logo of Sevilla FC.
+train_figure1_2.jpeg;Tag the logo of Real Betis.
+train_figure3.jpeg;Tag the painting of The Blue Room.
+train_figure3.jpeg;Tag the painting of The Starry Night.
+train_figure3.jpeg;Tag the painting of Guernica.
+train_figure3.jpeg;Tag the painting of The Vitruvian Man.
+train_figure3.jpeg;Tag the painting of The Potato Eaters.
+train_figure3.jpeg;Tag the painting of The Old Guitarist.
+train_figure3.jpeg;Tag the painting of The Virgin of the Rocks.
+train_figure4.jpeg;Tag the painting of Sunflowers.
+train_figure4.jpeg;Tag the painting of Les Demoiselles d'Avignon.
+train_figure4.jpeg;Tag the painting of The Madonna of the Carnation.
+train_figure4.jpeg;Tag the painting of Café Terrace at Night.
+train_figure4.jpeg;Tag the painting of The Lady with an Ermine.
+train_figure4.jpeg;Tag the painting of The Yellow House.
+train_flag.jpg;Tag the flag of the country Australia.
+train_flag.jpg;Tag the flag of the country Papua New Guinea.

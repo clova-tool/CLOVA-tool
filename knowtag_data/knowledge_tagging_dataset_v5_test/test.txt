@@ -1,0 +1,5 @@
+all_club3.jpeg;Tag two logos of Japanese football clubs in Kawasaki and Osaka.
+painting1.jpeg;Tag one painting of Pablo Picasso drawed in 1901, which describes a model bathing in a blue room.
+painting2.jpeg;Tag one painting of Van Gogh drawed in 1885, which describes someone are eating potatos.
+painting3.jpeg;Tag one painting of Pablo Picasso drawed in 1903, which describes a old guitarist.
+all_flag6.jpg;Tag the flags of two largest countries in Oceania by area.

@@ -1,0 +1,29 @@
+{"image":"all_club1.jpg", "real":[{"box":[140,181,284,336], "class":"Kawasaki Frontale"},{"box":[327,186,473,332], "class":"Gamba Osaka"}]}
+{"image":"painting1.jpeg", "real":[{"box":[284,30,482,150], "class":"The Last Supper"}]}
+{"image":"painting5.jpeg", "real":[{"box":[119,23,233,153], "class":"Three Musicians"}]}
+{"image":"new_person_2.png", "real":[{"box":[87,43,140,122], "class":"Viggo Mortensen"}, {"box":[500, 55, 546, 118], "class":"Mahershala Ali"}]}
+{"image":"new_person_10.jpg", "real":[{"box":[219,19,315,147], "class":"Chen Kaige"}]}
+{"image":"movie1.jpeg", "real":[{"box":[51,363,268,630], "class":"Journey to the West: The Demons Strike Back"}]}
+{"image":"new_school_5.jpg", "real":[{"box":[1,213,213,426], "class":"University College London"}, {"box":[426, 0, 638, 214], "class":"Imperial College London"}]}
+{"image":"all_NBA4.jpg", "real":[{"box":[60,170,145,275], "class":"Miami Heat"},{"box":[23,40,196,122], "class":"Orlando Magic"}]}
+{"image":"all_flag2.jpg", "real":[{"box":[39,258,169,392], "class":"Russia"},{"box":[425,2,638,212], "class":"Ukraine"}]}
+{"image":"all_flag19.jpg", "real":[{"box":[46,239,179,360], "class":"Uruguay"}]}
+{"image": "train_figure1_2.jpeg", "real": [{"box": [21, 17, 131, 126], "class": "Gamba Osaka"}]}
+{"image": "train_figure1_2.jpeg", "real": [{"box": [256, 21, 357, 133], "class": "Kawasaki Frontale"}]}
+{"image": "train_figure1_2.jpeg", "real": [{"box": [510, 17, 604, 126], "class": "Sevilla FC"}]}
+{"image": "train_figure1_2.jpeg", "real": [{"box": [125, 216, 246, 314], "class": "Real Betis"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [11, 17, 158, 177], "class": "The Blue Room"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [179, 16, 332, 176], "class": "The Starry Night"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [351, 17, 621, 176], "class": "Guernica"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [11, 226, 118, 423], "class": "The Vitruvian Man"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [135, 225, 340, 422], "class": "The Potato Eaters"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [365, 226, 462, 424], "class": "The Old Guitarist"}]}
+{"image": "train_figure3.jpeg", "real": [{"box": [485, 193, 609, 450], "class": "The Virgin of the Rocks"}]}
+{"image": "train_figure4.jpeg", "real": [{"box": [10, 4, 134, 215], "class": "Sunflowers"}]}
+{"image": "train_figure4.jpeg", "real": [{"box": [161, 4, 312, 216], "class": "Les Demoiselles d'Avignon"}]}
+{"image": "train_figure4.jpeg", "real": [{"box": [335, 6, 454, 213], "class": "The Madonna of the Carnation"}]}
+{"image": "train_figure4.jpeg", "real": [{"box": [487, 5, 612, 215], "class": "Café Terrace at Night"}]}
+{"image": "train_figure4.jpeg", "real": [{"box": [14, 241, 135, 458], "class": "The Lady with an Ermine"}]}
+{"image": "train_figure4.jpeg", "real": [{"box": [150, 239, 351, 450], "class": "The Yellow House"}]}
+{"image": "train_flag.jpg", "real": [{"box": [427, 213, 533, 318], "class": "Australia"}]}
+{"image": "train_flag.jpg", "real": [{"box": [535, 107, 639, 211], "class": "Papua New Guinea"}]}

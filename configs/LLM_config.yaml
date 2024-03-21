@@ -1,0 +1,60 @@
+LLaMA:
+    ckpt_dir_path: '/home/gaozhi/gaozhi_ml/llama/llama-2-7b/'
+    tokenizer_path: './llama/tokenizer.model'
+    temperature: 0.7
+    top_p: 0.5
+    max_seq_len: 4096
+    max_gen_len: 256
+    max_batch_size: 1
+
+    inference:
+        num_start_experience: 25
+
+OpenAI:
+    base_url: 'https://one.aiskt.com/v1'
+    api_key: 'sk-kvFQx9eTmj2xokHW6602152c4c664911B27e1f44Af31E6Bd'
+
+Task_type: 'gqa'
+# Task_type: 'nlvr'
+# Task_type: 'imgedit'
+# Task_type: 'knowtag'
+
+
+GQA:
+    incontext_num: 4
+    Dataset_path: '/home/gaozhi/scratch/GQA'
+    train_data_num: 500
+    test_data_num: 500
+    interval: 50
+
+
+NLVR:
+    incontext_num: 3
+    Dataset_path: '/home/gaozhi/scratch/nlvr2/data/'
+    train_file: 'nlvr2_train_500_lambda.pkl'
+    test_file: 'nlvr2_dev_500_lambda.pkl'
+    train_data_num: 500
+    test_data_num: 500
+    interval: 50
+
+
+IMGEDIT:
+    incontext_num: 4
+    dataset_train_path: './image_editing_data/train_data.txt'
+    dataset_test_path: './image_editing_data/test_data.txt'
+    image_path: './image_editing_data/images/'
+    result_save_path: './image_editing_data/results/'
+    train_data_num: 500
+    test_data_num: 500
+    interval: 50
+
+
+KNOWTAG:
+    incontext_num: 8
+    dataset_train_path: './knowtag_data/knowledge_tagging_dataset_v5_train/'
+    dataset_test_path: './knowtag_data/knowledge_tagging_dataset_v5_test/'
+    gt_path: './knowtag_data/knowledge_tagging_dataset_v5_train/ok_tag_box_real_train.json'
+    result_save_path: './knowtag_data/results/'
+    train_data_num: 500
+    test_data_num: 500
+    interval: 50

@@ -1,0 +1,5 @@
+{"image":"all_club3.jpeg", "real":[{"box":[483,21,618,145], "class":"Gamba Osaka"},{"box":[487,188,618,330], "class":"Kawasaki Frontale"}]}
+{"image":"painting1.jpeg", "real":[{"box":[26,47,255,241], "class":"The Blue Room"}]}
+{"image":"painting2.jpeg", "real":[{"box":[408,197,574,326], "class":"The Potato Eaters"}]}
+{"image":"painting3.jpeg", "real":[{"box":[87,76,165,181], "class":"The Old Guitarist"}]}
+{"image":"all_flag6.jpg", "real":[{"box":[427,1,639,159], "class":"Australia"},{"box":[214,160,424,319], "class":"Papua New Guinea"}]}

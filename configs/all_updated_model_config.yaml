@@ -1,0 +1,201 @@
+
+VQA:
+    feature_dim: 768
+    prompt_num: 4
+    weight_decay: 0.05
+    init:
+        n_head : 1
+        store_num : 10
+        resize : 384
+        normalization_parameters:
+            mean: [0.48145466, 0.4578275, 0.40821073]
+            std_dev: [0.26862954, 0.26130258, 0.27577711]
+
+        # set pretrained as a file path or an url
+        pretrained: 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_vqa_capfilt_large.pth'
+        # size of vit model; base or large
+        image_size: 384
+        vit: 'base'
+        vit_grad_ckpt: False
+        vit_ckpt_layer: 0
+        init_tokenizer_path : '/home/gaozhi/scratch/bert_base_uncased_weight/tokenizer'
+        # init_tokenizer_path : 'bert-base-uncased'
+    
+    prompt_train: 
+        max_step : 100
+        init_lr: 1e-3
+        
+SEG:
+    init:
+        pretrained_fe : "/home/gaozhi/scratch/maskformer_siwn_base_coco/processor"
+        pretrained_model : "/home/gaozhi/scratch/maskformer_siwn_base_coco/model"
+        # pretrained_fe : facebook/maskformer-swin-base-coco
+        # pretrained_model : facebook/maskformer-swin-base-coco
+        data_num : 50
+        iterative_num : 100
+        batch_num : 1
+        GLOBAL_TOKEN_H : 10
+        GLOBAL_TOKEN_W : 10
+        image_path : "/home/gaozhi/scratch/LVIS/LVIS_train2017/" # '/home/zhangxintong/AA_CODE/VL/visprog/gpt3.5_imageediting_allupdate_11.2/LAVIS/LVIS_train2017/'
+        feature_dim : 1024
+    update:
+        LVIS_path :  "/home/gaozhi/scratch/LVIS/" #'/home/zhangxintong/AA_CODE/VL/visprog/gpt3.5_imageediting_allupdate_11.2/LAVIS/'
+    prompt_generation:
+        n_head : 1
+    prompt_train:
+        lr : 0.1
+
+SELECT:
+    init: 
+        clip_pretrained : ViT-L/14
+        prompt_num : 100
+        max_gen_len : 256
+        temperature : 0.7
+        top_p : 0.5
+
+    get_data:
+        pic_num : 5
+        val_num : 1
+        images_path : 'downloaded_images_select'
+        url_start: 'https://www.google.com.hk/search?q='
+        url_end : '&tbm=isch'
+        neg_num : 5
+        images_path_2 : "neg_samples_select"
+
+    update:
+        steps : 30
+
+    train_prompt:
+        optimizer:
+            lr : 5e-3
+            betas : [0.9,0.98]
+            eps : 1e-3 
+            weight_decay : 0.001
+            threshold: 0.5
+        scheduler:
+            step_size : 10
+            gamma : 0.1
+
+FaceDet:
+    init:
+        pretrained : "DSFDDetector" 
+        confidence_threshold : 0.5 
+        nms_iou_threshold : 0.3
+
+REPLACE:
+    init:
+        download_image_num : 7
+        save_crawl_pics_path : "downloaded_images_replace"
+        sd_pipe:
+            pretrained : "/home/gaozhi/scratch/StableDiffusionInpaintPipeline_weight/sd_pipe"
+            # pretrained : "runwayml/stable-diffusion-v1-5"
+        pipe:
+            pretrained : "/home/gaozhi/scratch/StableDiffusionInpaintPipeline_weight/pipe"
+            # pretrained : "runwayml/stable-diffusion-inpainting"
+    crawl_pics:
+        url_start : 'https://www.google.com.hk/search?q=' 
+        url_end : '&tbm=isch'
+    update:
+        learning_rate : 5e-4
+        num_train_epochs : 10
+        train_batch_size : 4000
+        seed : 23
+        optimizer: 
+            betas : [0.9, 0.999]
+            weight_decay : 1e-2
+            eps : 1e-08
+        train_dataset:
+            size : 512
+    predict:
+        new_img:
+            guidance_scale : 7.5
+            num_inference_steps : 10 #200
+
+CLASSIFY:
+    init : 
+        clip_pretrained : 'ViT-L/14'  
+        prompt_num : 100
+        max_gen_len : 256
+        temperature : 0.7
+        top_p : 0.5
+    get_data:
+        pic_num : 5
+        val_num : 1
+        images_path : 'downloaded_images_cls'
+        url_start: 'https://www.google.com.hk/search?q='
+        url_end : '&tbm=isch'
+        neg_num : 5
+        images_path_2 : "neg_samples_cls"
+    update:
+        steps : 50
+        given_lr : 1e-3
+        stop_value : 0.3
+    train_prompt:
+        optimizer:
+            betas : [0.9,0.98]
+            eps : 1e-3
+            weight_decay : 0.001
+        scheduler: 
+            step_size : 10 
+            gamma : 0.1
+
+
+
+LOC:
+    init:
+        pretrained_processor: "/home/gaozhi/scratch/owlvit-base-patch32_weight/processor"
+        pretrained_model: "/home/gaozhi/scratch/owlvit-base-patch32_weight/model"
+        # pretrained_processor: " google/owlvit-base-patch32"
+        # pretrained_model: " google/owlvit-base-patch32"
+        thresh : 0.1
+        nms_thresh : 0.5 
+        seed : 42
+
+    update:
+        select_number : 200
+        max_class_num : 15
+        epochs : 100 
+        clip_max_norm : 1.0
+        LVIS_path :  "/home/gaozhi/scratch/LVIS/" #'/home/zhangxintong/AA_CODE/VL/visprog/gpt3.5_imageediting_allupdate_11.2/LAVIS/'
+        lr : 5e-4 
+        weight_decay : 0.0
+
+
+Bert_feature_extractor:
+    init:
+        pretrained_tokenizer: '/home/gaozhi/scratch/bert_weight/tokenizer'
+        pretrained_model: '/home/gaozhi/scratch/bert_weight/model'
+        # pretrained_tokenizer: "bert-base-cased"
+        # pretrained_model: "bert-base-cased"
+
+BLIP_caption:
+    init:
+        pretrained_processor: '/home/gaozhi/scratch/blip_captioning_large_weight/processor'
+        pretrained_model: '/home/gaozhi/scratch/blip_captioning_large_weight/model'
+        # pretrained_processor: "Salesforce/blip-image-captioning-large"   
+	# pretrained_processor: "Salesforce/blip-image-captioning-large"
+
+
+LIST:
+    init : 
+        max_gen_len : 256
+        temperature : 0.7
+        top_p : 0.5
+
+
+
+
+I2T:
+    init:
+        pretrained_processor: '/home/gaozhi/scratch/blip_captioning_large_weight/processor'
+        pretrained_model: '/home/gaozhi/scratch/blip_captioning_large_weight/model' 
+        # pretrained_processor: "Salesforce/blip-image-captioning-large"   
+	# pretrained_processor: "Salesforce/blip-image-captioning-large"
+
+Text_Feature:
+    init:
+        pretrained_tokenizer: '/home/gaozhi/scratch/bert_weight/tokenizer'
+        pretrained_model: '/home/gaozhi/scratch/bert_weight/model'  
+        # pretrained_tokenizer: "bert-base-cased"
+        # pretrained_model: "bert-base-cased"        
+        
