@@ -20,7 +20,6 @@ import ruamel.yaml as yaml
 from .nms import nms
 
 from tools.blip_vqa.blip_vqa import blip_vqa
-from tools.blip_vqa.meta_distance import MultiHeadAttention
 
 
 from engine.data_utils import pre_question

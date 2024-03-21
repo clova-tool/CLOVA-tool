@@ -23,8 +23,7 @@ import numpy as np
 
 from engine.nms import nms
 
-from tools.blip_vqa.meta_distance import MultiHeadAttention
-
+from tools.blip_vqa.prompt_generation import Prompt_Generation_Model
 
 from engine.data_utils import pre_question
 from torchvision import transforms
@@ -213,7 +212,7 @@ class SegmentInterpreter():
             category_prompt_pool=categpry_name_pool[query_name][0]
             category_feature_pool=categpry_name_pool[query_name][1]
 
-            prompt_generate_model=MultiHeadAttention(n_head=self.config["SEG"]['prompt_generation']['n_head'], d_model=self.feature_dim, d_k=self.feature_dim, d_v=self.prompt_dimension)
+            prompt_generate_model=Prompt_Generation_Model(n_head=self.config["SEG"]['prompt_generation']['n_head'], d_model=self.feature_dim, d_k=self.feature_dim, d_v=self.prompt_dimension)
             prompt_generate_model=prompt_generate_model.to(self.device)
             prompt_generate_model.eval()
             image_feature=image_feature.unsqueeze(0)

@@ -9,7 +9,6 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from engine.meta_distance import MultiHeadAttention
 from tqdm import tqdm
 import os
 
