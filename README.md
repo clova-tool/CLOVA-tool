@@ -71,12 +71,14 @@ python -m torch.distributed.launch --nproc_per_node=1 knowtag_demo.py
 
 # Adding New Tools
 
-- If the tool is learnable (e.g., a neural network), you should add a separate python file in the `tools` folder, including a class of this tool with `execute` and `update` functions. Following is an exmaple of the CLASSIFY tool.
+- If the tool is learnable (e.g., a neural network), you should add a separate python file in the `tools` folder, including a class of this tool with `execute` and `update` functions. Following is an exmaple of the LOC tool.
 ```
-class ClassifyInterpreter():
-    step_name = 'CLASSIFY'
+class LocInterpreter():
+    step_name = 'LOC'
     def __init__(self):
        ...
+    def parse(self,prog_step):
+       ...       
     def execute(self, prog_step):
        ...
     def update(self, query):
@@ -91,23 +93,13 @@ class CountInterpreter():
     step_name = 'COUNT'
 
     def __init__(self):
-        print(f'Registering {self.step_name} step')
+       ...
 
     def parse(self,prog_step):
-        parse_result = parse_step(prog_step.prog_str)
-        step_name = parse_result['step_name']
-        box_var = parse_result['args']['box']
-        output_var = parse_result['output_var']
-        assert(step_name==self.step_name)
-        return box_var,output_var
+       ...
 
     def execute(self,prog_step,inspect=False):
-        box_var,output_var = self.parse(prog_step)
-        boxes = prog_step.state[box_var]
-        count = len(boxes)
-        prog_step.state[output_var] = count
-
-        return count
+       ...
 ```
 
 - Add tool instruction to the `prompt_engineering.py` file, and several in-context examples to corresponding `experience_pool.py` file in the `prompts` folders.
