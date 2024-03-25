@@ -188,7 +188,7 @@ class CLOVA():
                 print ('--------------fast_reason--------------',fast_reason)
                 if 'function' in fast_location: 
                     reflection_outputs=dict(location=fast_location, reason=fast_reason, new_subq='None', new_prog='None', new_prog_state='None')
-                    return 'successful_fast_reflection', reflection_outputs
+                    return 'successful_fast_reflection_function', reflection_outputs
                 else:
                     fast_reflection_flag=0
                     fast_subq, fast_prog = self.LLMs_react(dict(question=inputs['question'], subq=inputs['subq'], prog=inputs['prog'], errorlocation=fast_location, reason=fast_reason, pre_subq=inputs['subq'], pre_prog=inputs['prog']))
@@ -236,7 +236,7 @@ class CLOVA():
                     if 'function' in slow_location:
                         print ('----------------error is caused by tools----------------')
                         reflection_outputs=dict(location=slow_location, reason=slow_reason, new_subq='None', new_prog='None', new_prog_state='None')
-                        return 'successful_slow_reflection', reflection_outputs
+                        return 'successful_slow_reflection_function', reflection_outputs
                     else:
                         print ('----------------error is caused by plans/programs----------------')
                         slow_reflection_flag=0

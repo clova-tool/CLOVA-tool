@@ -101,7 +101,7 @@ for i, data in loop:
         CLOVA_model.learning(learning_inputs)
 
     elif 'failed' not in state:
-        if 'function' in reflection_outputs['reason']:
+        if 'function' in state:
             learning_inputs=dict(
             question=question,
             answer=answer,

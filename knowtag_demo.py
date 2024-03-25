@@ -238,7 +238,7 @@ with open(dataset_train_path+'train.txt', 'r') as f:
             CLOVA_model.learning(learning_inputs)
 
         else:
-            if 'function' in reflection_outputs['reason']:
+            if 'function' state:
                 learning_inputs=dict(
                 question=instruction,
                 answer='None',
