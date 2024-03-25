@@ -96,6 +96,7 @@ REPLACE:
         url_start : 'https://www.google.com.hk/search?q=' 
         url_end : '&tbm=isch'
     update:
+    	warmup_epochs : 500
         learning_rate : 1e-3
         num_train_epochs : 4000
         train_batch_size : 4

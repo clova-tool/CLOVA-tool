@@ -106,6 +106,7 @@ class ReplaceInterpreter():
         self.crawl_pics(prompt, crawl_path)
         
         cfg = {
+            "warmup_epochs": self.config["REPLACE"]['update']['warmup_epochs'],
             "lr_scheduler": "constant", 
             "learning_rate": float(self.config["REPLACE"]['update']['learning_rate']),
             "mixed_precision": "no",  
@@ -176,10 +177,14 @@ class ReplaceInterpreter():
         )
         
 
+        steps_per_epoch=len(train_dataloader)
         lr_scheduler = get_scheduler(
             cfg["lr_scheduler"],
             optimizer=optimizer,
+            num_warmup_steps=cfg["warmup_epochs"]*steps_per_epoch,
+            num_training_steps=cfg["num_train_epochs"] * steps_per_epoch,
         )
+        
         # Prepare everything with our `accelerator`.
         text_encoder, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
             text_encoder, optimizer, train_dataloader, lr_scheduler
