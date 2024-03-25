@@ -75,7 +75,7 @@ with open(dataset_test_path, 'r') as f:
             print ('the program correctly can')
             print ('--------prog_state---------',prog_state)
             try:
-                result.save(result_save_path+image_path+'_replace_test_before.png')
+                result.save(result_save_path+image_path+question+'_replace_test_before.png')
             except:
                 print ('final result is not an image.')
             print ('--------prog_state---------')
@@ -124,7 +124,7 @@ with open(dataset_train_path, 'r') as f:
             print ('the program correctly can')
             print ('------------------is the question correctedly answered?------------------', int(correct)==1)  
             try:
-                result.save(result_save_path+image_path+'_replace_train.png')
+                result.save(result_save_path+image_path+question+'_replace_train.png')
             except:
                 print ('the results are not images')
 
@@ -224,7 +224,7 @@ with open(dataset_test_path, 'r') as f:
         else:
             print ('the program correctly can')
             try:
-                result.save(result_save_path+image_path+'_replace_test_after.png')
+                result.save(result_save_path+image_path+question+'_replace_test_after.png')
             except:
                 print('results are not images')
 
