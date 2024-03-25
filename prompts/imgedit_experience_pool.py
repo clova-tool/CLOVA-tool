@@ -89,6 +89,22 @@ Step1, Perform segmentation for the given image, and obtain image regions of eac
 Step2, Select the object of the red bus, based on the image regions obtained in Step1.
 Step3, Generate a truck to replace the red bus in the given image, where the image region of the red bus is obtained in Step2.
 Step4, Visualize results.
+""",
+"""
+Question: Replace Barack Obama with Joe Biden.
+SubQuetion:
+Step1, Detect face regions from the given image, and obtain bounding boxes of face regions.
+Step2, Select the face region of Barack Obama, based on the bounding boxes obtained in Step1.
+Step3, Generate Joe Biden to replace Barack Obama in the given image, where the image region of Barack Obama is obtained in Step2.
+Step4, Visualize results.
+""",
+"""
+Question: Replace Donald Trump with a panda.
+SubQuetion:
+Step1, Detect face regions from the given image, and obtain bounding boxes of face regions.
+Step2, Select the face region of Donald Trump, based on the bounding boxes obtained in Step1.
+Step3, Generate a panda to replace Donald Trump in the given image, where the image region of Donald Trump is obtained in Step2.
+Step4, Visualize results.
 """,]
 
 
@@ -231,6 +247,32 @@ Program:
 OBJ0=SEG(image=IMAGE)
 OBJ1=SELECT(image=IMAGE,object=OBJ0,query='red bus',category='bus')
 IMAGE0=REPLACE(image=IMAGE,object=OBJ1,prompt='truck')
+FINAL_RESULT=RESULT(var=IMAGE0)
+""",
+"""
+Question: Replace Barack Obama with Joe Biden.
+SubQuetion:
+Step1, Detect face regions from the given image, and obtain bounding boxes of face regions.
+Step2, Select the face region of Barack Obama, based on the bounding boxes obtained in Step1.
+Step3, Generate Joe Biden to replace Barack Obama in the given image, where the image region of Barack Obama is obtained in Step2.
+Step4, Visualize results.
+Program:
+OBJ0=FACEDET(image=IMAGE)
+OBJ1=SELECT(image=IMAGE,object=OBJ0,query='Barack Obama',category=None)
+IMAGE0=REPLACE(image=IMAGE,object=OBJ1,prompt='Joe Biden')
+FINAL_RESULT=RESULT(var=IMAGE0)
+""",
+"""
+Question: Replace Donald Trump with a panda.
+SubQuetion:
+Step1, Detect face regions from the given image, and obtain bounding boxes of face regions.
+Step2, Select the face region of Donald Trump, based on the bounding boxes obtained in Step1.
+Step3, Generate a panda to replace Donald Trump in the given image, where the image region of Donald Trump is obtained in Step2.
+Step4, Visualize results.
+Program:
+OBJ0=FACEDET(image=IMAGE)
+OBJ1=SELECT(image=IMAGE,object=OBJ0,query='Donald Trump',category=None)
+IMAGE0=REPLACE(image=IMAGE,object=OBJ1,prompt='panda')
 FINAL_RESULT=RESULT(var=IMAGE0)
 """,]
 
