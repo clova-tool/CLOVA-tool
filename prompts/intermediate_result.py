@@ -201,13 +201,12 @@ def divide_by_stepbystep_gqa(question, human_feedback, subquestion, program, res
     index=our_result.find('FINAL_RESULT: ')
     prompt_question = prompt_question + 'Our Wrong Answer: ' + our_result[index+14:] + '\n\n'
 
-
     if step_num==1:
         prompt_checked=None
         prompt_unchecked='Step1'+'\n'
         prompt_unchecked = prompt_unchecked + 'SubQuestion: ' + d_subquestion[0] +'\n'
         prompt_unchecked = prompt_unchecked + 'Program: ' + d_program[0] +'\n'
-        if 'The description of' in d_results[0]:
+        if 'The description of' in d_results[1]:
             prompt_unchecked = prompt_unchecked + d_results[1] +'\n'
         else:
             prompt_unchecked = prompt_unchecked + 'Result of ' + d_results[1] +'\n'
@@ -222,7 +221,7 @@ def divide_by_stepbystep_gqa(question, human_feedback, subquestion, program, res
                 prompt_checked = prompt_checked + d_results[i+1] +'\n'
             else:
                 prompt_checked = prompt_checked + 'Result of ' + d_results[i+1] +'\n'    
-            i=i+1	
+            i=i+1   
         prompt_unchecked='Step'+str(step_num)+'\n'
         prompt_unchecked = prompt_unchecked + 'SubQuestion: ' + d_subquestion[step_num-1] +'\n'
         prompt_unchecked = prompt_unchecked + 'Program: ' + d_program[step_num-1] +'\n'
@@ -230,8 +229,6 @@ def divide_by_stepbystep_gqa(question, human_feedback, subquestion, program, res
             prompt_unchecked = prompt_unchecked + d_results[step_num] +'\n'
         else:
             prompt_unchecked = prompt_unchecked + 'Result of ' + d_results[step_num] +'\n'
-
-
 
     return prompt_question, prompt_checked, prompt_unchecked
 
@@ -338,7 +335,6 @@ def divide_by_stepbystep_nlvr(question, human_feedback, subquestion, program, re
         else:
             prompt_unchecked = prompt_unchecked + 'Result of ' + d_results[step_num] +'\n'
 
-
     return prompt_question, prompt_checked, prompt_unchecked
 
 
@@ -379,7 +375,7 @@ def divide_by_step_imgedit(question, feedback, subquestion, program, results, pr
 
 
 
-def divide_by_stepbystep_imgedit(question, feedback, subquestion, program, results, prog_step, step_num):
+def divide_by_stepbystep_imgedit(question, human_feedback, subquestion, program, results, prog_step, step_num):
     d_subquestion=subquestion.split('\n')
     d_program=program.split('\n')
     d_results=results.split('\n')
@@ -390,14 +386,14 @@ def divide_by_stepbystep_imgedit(question, feedback, subquestion, program, resul
     input_image_description_index=input_image_description.find(': ')
     input_image_description=input_image_description[input_image_description_index+2:]
 
-    prompt_question = prompt_question+'Human Feedback: ' + input_image_description + '\n'
+    prompt_question = prompt_question+'Description of the Input Image: ' + input_image_description + '\n'
 
-    prompt_question = prompt_question + 'Evaluation of our result: ' + feedback + '\n'
+    prompt_question = prompt_question + 'Human Feedback: ' + human_feedback + '\n'
 
     our_result=d_results[len(d_program)]
     index=our_result.find('FINAL_RESULT: ')
-    prompt_question = prompt_question + 'Our Wrong Answer: ' + our_result[index+14:] + '\n\n'
-
+    if 'str' in str(type(our_result)):
+        prompt_question = prompt_question + 'Our Wrong Answer: ' + our_result[index+14:] + '\n\n'
 
     if step_num==1:
         prompt_checked=None
@@ -419,7 +415,7 @@ def divide_by_stepbystep_imgedit(question, feedback, subquestion, program, resul
                 prompt_checked = prompt_checked + d_results[i+1] +'\n'
             else:
                 prompt_checked = prompt_checked + 'Result of ' + d_results[i+1] +'\n'    
-            i=i+1	
+            i=i+1   
         prompt_unchecked='Step'+str(step_num)+'\n'
         prompt_unchecked = prompt_unchecked + 'SubQuestion: ' + d_subquestion[step_num-1] +'\n'
         prompt_unchecked = prompt_unchecked + 'Program: ' + d_program[step_num-1] +'\n'
@@ -468,25 +464,30 @@ def divide_by_step_knowtag(question, feedback, subquestion, program, results, pr
 
 
 
-def divide_by_stepbystep_knowtag(question, feedback, program, results, prog_step, step_num):
+def divide_by_stepbystep_knowtag(question, human_feedback, subquestion, program, results, prog_step, step_num):
+    d_subquestion=subquestion.split('\n')
     d_program=program.split('\n')
     d_results=results.split('\n')
 
-    prompt_instruction = 'Question: ' + question+ '\n'
+    prompt_question = 'Question: ' + question+ '\n'
 
     input_image_description=d_results[0]
     input_image_description_index=input_image_description.find(': ')
     input_image_description=input_image_description[input_image_description_index+2:]
 
-    prompt_instruction = prompt_instruction+'Description of the Input Image: ' + input_image_description + '\n'
+    prompt_question = prompt_question+'Description of the Input Image: ' + input_image_description + '\n'
 
-    prompt_instruction = prompt_instruction + 'Human Feedback: ' + feedback + '\n'
+    prompt_question = prompt_question + 'Human Feedback: ' + human_feedback + '\n'
 
     our_result=d_results[len(d_program)]
+    index=our_result.find('FINAL_RESULT: ')
+    if 'str' in str(type(our_result)):
+        prompt_question = prompt_question + 'Our Wrong Answer: ' + our_result[index+14:] + '\n\n'
 
     if step_num==1:
         prompt_checked=None
         prompt_unchecked='Step1'+'\n'
+        prompt_unchecked = prompt_unchecked + 'SubQuestion: ' + d_subquestion[0] +'\n'
         prompt_unchecked = prompt_unchecked + 'Program: ' + d_program[0] +'\n'
         if 'The description of' in d_results[1]:
             prompt_unchecked = prompt_unchecked + d_results[1] +'\n'
@@ -497,19 +498,22 @@ def divide_by_stepbystep_knowtag(question, feedback, program, results, prog_step
         i=0
         while(i<step_num-1):
             prompt_checked = prompt_checked + 'Step'+str(i+1)+'\n'
+            prompt_checked = prompt_checked + 'SubQuestion: ' + d_subquestion[i] +'\n'
             prompt_checked = prompt_checked + 'Program: ' + d_program[i] +'\n'
             if 'The description of' in d_results[i+1]:
                 prompt_checked = prompt_checked + d_results[i+1] +'\n'
             else:
                 prompt_checked = prompt_checked + 'Result of ' + d_results[i+1] +'\n'    
-            i=i+1	
+            i=i+1   
         prompt_unchecked='Step'+str(step_num)+'\n'
+        prompt_unchecked = prompt_unchecked + 'SubQuestion: ' + d_subquestion[step_num-1] +'\n'
         prompt_unchecked = prompt_unchecked + 'Program: ' + d_program[step_num-1] +'\n'
         if 'The description of' in d_results[step_num]:
             prompt_unchecked = prompt_unchecked + d_results[step_num] +'\n'
         else:
             prompt_unchecked = prompt_unchecked + 'Result of ' + d_results[step_num] +'\n'
 
+    return prompt_question, prompt_checked, prompt_unchecked
 
 
 
