@@ -1,4 +1,4 @@
-# CLOVA: A Closed-Loop Visual Assistant with Tool Usage and Update (CVPR 2024)
+# <img src="figure/icon_6.jpg" style="vertical-align: -10px;" :height="40px" width="40px"> CLOVA: A Closed-Loop Visual Assistant with Tool Usage and Update (CVPR 2024)
 
 [Zhi Gao](https://zhigao2017.github.io/), [Yuntao Du](https://yuntaodu.github.io/), [Xintong Zhang](https://github.com/ZhXTong), [Xiaojian Ma](https://jeasinema.github.io), [Wenjuan Han](https://github.com/cocacola-lab), [Song-Chun Zhu](https://zhusongchun.net/), [Qing Li](https://liqing-ustc.github.io/)
 
