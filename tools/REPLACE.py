@@ -64,6 +64,10 @@ class ReplaceInterpreter():
         self.config = all_model_config
         self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
+        # sd_model = "runwayml/stable-diffusion-v1-5"
+        # model_name = "runwayml/stable-diffusion-inpainting"
+        # print ('sd_pipe',self.config["REPLACE"]['init']['sd_pipe']['pretrained'])
+        # print ('pipe',self.config["REPLACE"]['init']['pipe']['pretrained'])
         self.sd_pipe = StableDiffusionPipeline.from_pretrained(self.config["REPLACE"]['init']['sd_pipe']['pretrained'])
         self.pipe = StableDiffusionInpaintPipeline.from_pretrained(
             self.config["REPLACE"]['init']['pipe']['pretrained'],
@@ -82,7 +86,7 @@ class ReplaceInterpreter():
 
         self.pipe = self.pipe.to(self.device)
         self.sd_pipe = self.sd_pipe.to(self.device)
-        self.pipe.safety_checker = dummy
+        # self.pipe.safety_checker = dummy
         self.pipe.safety_checker = None
         self.pipe.requires_safety_checker = False
         self.sd_pipe.safety_checker = None
@@ -95,6 +99,7 @@ class ReplaceInterpreter():
         
     def crawl_pics(self, token, crawl_path):
         url = self.config["REPLACE"]['crawl_pics']['url_start'] + token + self.config["REPLACE"]['crawl_pics']['url_end']
+        # train_images_list = crawl_google(url, crawl_path, token, self.download_image_num, is_face=False, FaceDetInterpreter=FaceDetInterpreter(), SegmentInterpreter=SegmentInterpreter(), only_image=True)
         train_images_list = crawl_baidu(url, crawl_path, token, self.download_image_num, is_face=False, FaceDetInterpreter=FaceDetInterpreter(), SegmentInterpreter=SegmentInterpreter(), only_image=True)
         
 
@@ -104,11 +109,33 @@ class ReplaceInterpreter():
         new_token = prompt.replace(" ", "_")
         crawl_path = f"{self.save_crawl_pics_path}"
         self.crawl_pics(prompt, crawl_path)
-        
+        # update_prompt(prompt, new_token, crawl_path, learnable_property=learnable_property)
+
+
+        # cfg = {
+
+        #     "warmup_epochs": 500,
+        #     "lr_scheduler": "constant", 
+        #     "learning_rate": 1e-3,
+        #     # "gradient_accumulation_steps": 1,
+        #     "mixed_precision": "no",  
+        #     "num_train_epochs": 4000,
+        #     "train_batch_size": 4,
+        #     "seed": 23,
+
+        #     "learnable_property": learnable_property, 
+        #     "initializer_token": new_token,
+        #     "placeholder_token":  new_token,
+        #     "train_data_dir": f"{crawl_path}/{prompt}",
+        #     # "output_dir": "./embeddings/test_breadfruit_tree_sd_3000_5e-3_1.bin"
+        # }
+
+
         cfg = {
             "warmup_epochs": self.config["REPLACE"]['update']['warmup_epochs'],
             "lr_scheduler": "constant", 
             "learning_rate": float(self.config["REPLACE"]['update']['learning_rate']),
+            "gradient_accumulation_steps": self.config["REPLACE"]['update']['gradient_accumulation_steps'],
             "mixed_precision": "no",  
             "num_train_epochs": self.config["REPLACE"]['update']['num_train_epochs'],
             "train_batch_size": self.config["REPLACE"]['update']['train_batch_size'],
@@ -118,10 +145,13 @@ class ReplaceInterpreter():
             "initializer_token": new_token,
             "placeholder_token":  new_token,
             "train_data_dir": f"{crawl_path}/{prompt}",
+            # "output_dir": "./embeddings/test_breadfruit_tree_sd_3000_5e-3_1.bin"
         }
         accelerator_project_config = ProjectConfiguration(total_limit=None)
         accelerator = Accelerator(
-
+        gradient_accumulation_steps=cfg["gradient_accumulation_steps"],
+        # mixed_precision=mixed_precision,
+        # log_with="wandb",
         project_config=accelerator_project_config,
         )
         if cfg["seed"] is not None:
@@ -133,7 +163,14 @@ class ReplaceInterpreter():
         tokenizer = self.sd_pipe.tokenizer
         vae = self.sd_pipe.vae
         
-
+        num_added_tokens = tokenizer.add_tokens(cfg["placeholder_token"])
+        if num_added_tokens == 0:
+            raise ValueError(
+                f"The tokenizer already contains the token {cfg['placeholder_token']}. Please pass a different"
+                " `placeholder_token` that is not already in the tokenizer."
+            )
+            
+        # token_ids = tokenizer.encode(cfg["initializer_token"], add_special_tokens=False)
         token_ids = [tokenizer.convert_tokens_to_ids(cfg["initializer_token"])]
         
         if len(token_ids) > 1:
@@ -168,6 +205,7 @@ class ReplaceInterpreter():
             tokenizer=tokenizer,
             size=self.config["REPLACE"]['update']['train_dataset']['size'],
             placeholder_token=cfg["placeholder_token"],
+            # repeats=100,
             learnable_property=cfg["learnable_property"], # object style
             center_crop=True,
             set="train",
@@ -177,14 +215,21 @@ class ReplaceInterpreter():
         )
         
 
+        # lr_scheduler = get_scheduler(
+        #     cfg["lr_scheduler"],
+        #     optimizer=optimizer,
+        # )
+
         steps_per_epoch=len(train_dataloader)
+        print("steps_per_epoch", steps_per_epoch)
         lr_scheduler = get_scheduler(
             cfg["lr_scheduler"],
             optimizer=optimizer,
             num_warmup_steps=cfg["warmup_epochs"]*steps_per_epoch,
             num_training_steps=cfg["num_train_epochs"] * steps_per_epoch,
         )
-        
+
+
         # Prepare everything with our `accelerator`.
         text_encoder, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
             text_encoder, optimizer, train_dataloader, lr_scheduler
@@ -199,6 +244,8 @@ class ReplaceInterpreter():
         unet.to(accelerator.device, dtype=weight_dtype)
         vae.to(accelerator.device, dtype=weight_dtype)
     
+        total_batch_size = cfg["train_batch_size"] * accelerator.num_processes * cfg["gradient_accumulation_steps"]
+
         orig_embeds_params = accelerator.unwrap_model(text_encoder).get_input_embeddings().weight.data.clone()
         
         for epoch in tqdm(range(0, cfg["num_train_epochs"])):
@@ -231,6 +278,8 @@ class ReplaceInterpreter():
                         raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
 
                     loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
+
+                    print ('REPLACE,loss',loss)
                     
                     accelerator.backward(loss)
 
@@ -244,10 +293,11 @@ class ReplaceInterpreter():
                             index_no_updates
                         ] = orig_embeds_params[index_no_updates]
  
+                # logs = {"loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
         
         learned_embeds = accelerator.unwrap_model(text_encoder).get_input_embeddings().weight[placeholder_token_id]
         self.token_pool.append(new_token)
-        self.emb_pool.append(learned_embeds)
+        self.emb_pool.append(learned_embeds.detach().cpu())
         
     def parse(self,prog_step):
         parse_result = parse_step(prog_step.prog_str)
@@ -256,7 +306,9 @@ class ReplaceInterpreter():
         obj_var = parse_result['args']['object']
         prompt = eval(parse_result['args']['prompt'])
         output_var = parse_result['output_var']
+        # instruction = parse_result['args']['instruction']
         assert(step_name==self.step_name)
+        # return img_var,obj_var,prompt,output_var,instruction
         return img_var,obj_var,prompt,output_var
     
 
@@ -283,6 +335,7 @@ class ReplaceInterpreter():
         W,H = thumbnail.size
         return new_img, W, H
     
+        # def predict(self, token, learnable_property="object"):
     def predict(self, img, mask, prompt, learnable_property="object"):
 
         print ('REPLACE token_pool',len(self.token_pool))
@@ -296,8 +349,10 @@ class ReplaceInterpreter():
             # self.update_prompt(prompt, modified_token, crawl_path, learnable_property=learnable_property)
         """
         if modified_token in self.token_pool:
+            print ('self.token_pool', self.token_pool)
             index = self.token_pool.index(modified_token) 
             learned_embeds = {modified_token: self.emb_pool[index]}
+            # learned_token = torch.load(learned_embeds)
             self.pipe.load_textual_inversion(learned_embeds, token=modified_token)
         
         mask,_,_ = self.resize_and_pad(mask)
@@ -307,7 +362,7 @@ class ReplaceInterpreter():
             image=init_img,
             mask_image=mask,
             # strength=0.98,
-            guidance_scale=self.config["REPLACE"]['predict']['new_img']['guidance_scale'],
+            # guidance_scale=self.config["REPLACE"]['predict']['new_img']['guidance_scale'],
             num_inference_steps=self.config["REPLACE"]['predict']['new_img']['num_inference_steps'], #200
         ).images[0]
         return new_img.crop((0,0,W-1,H-1)).resize(img.size)
@@ -316,16 +371,31 @@ class ReplaceInterpreter():
     def create_maskimg(self,objs,img):
         box = objs[0]['box']
         new_img = img.crop(box)
+        # mask[mask>0.5] = 255
+        # mask[mask<=0.5] = 0
+        # mask = mask.astype(np.uint8)
+        # return Image.fromarray(mask)
         return new_img
     
+    # def get_caption(self, img, instruction):
+    #     # image = Image.open('images/inputs/birdtest.png')
+    #     text=I2T_function(img)
+
+    #     print(text)
+    #     prompt = f"Here is a description of an image: '{text}.' \nThe command to edit the image: '{instruction}.' \nWhat is the precise description of the modified image? Just give the description without any extra words."
+    #     # print(prompt)
+    #     answer = get_eval(content=prompt, max_tokens = 20)["content"]
+    #     return answer
     
     def execute(self,prog_step):
+        # img_var,obj_var,prompt,output_var,instruction = self.parse(prog_step)
         img_var,obj_var,prompt,output_var = self.parse(prog_step)
         
         img = prog_step.state[img_var] # whole image
         objs = prog_step.state[obj_var]
         mask = self.create_mask_img(objs) # 得到mask
         new_img = self.predict(img, mask, prompt)
+        # new_img = self.predict(new_img, mask, prompt)
 
         prog_step.state[output_var] = new_img
 
