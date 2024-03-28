@@ -7,3 +7,5 @@ tabby_cat2.png;Create a color pop of tabby cat
 tabby_cat5.jpeg;Create a color pop of tabby cat
 Christian_Bale.jpg;Replace Christian Bale with Robbie Wadge
 Christian_Bale.jpg;Replace Christian Bale with Orlando Bloom
+dog2.jpg;Replace the dog with Havanna Winter
+cock.jpg;Replace the cock with Platalea ajaja

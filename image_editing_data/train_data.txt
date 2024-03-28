@@ -2,3 +2,5 @@ breadfruit_tree1.png;Create a color pop of breadfruit tree;0;a wrong object is s
 tabby_cat1.png;Create a color pop of tabby cat;0;a wrong object is selected for color pop, rather than the tabby cat.
 Leonardo.jpg;Replace Leonardo with Robbie Wadge;0;Leonardo is replaced with a wrong object, rather than Robbie Wadge.
 Leonardo.jpg;Replace Leonardo with Orlando Bloom;0;Leonardo is replaced with a wrong object, rather than Orlando Bloom.
+bird.jpg;Replace the bird with Platalea ajaja;0;the bird is replaced with a wrong object, rather than Platalea ajaja.
+panda.jpg;Replace the panda with Havanna Winter;0;the panda is replaced with a wrong object, rather than Havanna Winter.
