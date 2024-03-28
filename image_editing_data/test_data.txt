@@ -1,10 +1,3 @@
-breadfruit_tree2.png;Create a color pop of the breadfruit tree
-breadfruit_tree3.png;Create a color pop of breadfruit tree
-breadfruit_tree4.png;Create a color pop of breadfruit tree
-breadfruit_tree5.png;Create a color pop of breadfruit tree
-breadfruit_tree6.png;Create a color pop of breadfruit tree
-tabby_cat2.png;Create a color pop of tabby cat
-tabby_cat5.jpeg;Create a color pop of tabby cat
 Christian_Bale.jpg;Replace Christian Bale with Robbie Wadge
 Christian_Bale.jpg;Replace Christian Bale with Orlando Bloom
 dog2.jpg;Replace the dog with Havanna Winter
