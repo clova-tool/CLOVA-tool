@@ -90,6 +90,7 @@ REPLACE:
             # pretrained : "/home/gaozhi/scratch/StableDiffusionInpaintPipeline_weight/sd_pipe"
             pretrained : "/scratch/ml/zhangxt/A_Models/stable-diffusion-v1-5"
         pipe:
+            # pretrained : "runwayml/stable-diffusion-inpainting"
             # pretrained : "/home/gaozhi/scratch/StableDiffusionInpaintPipeline_weight/pipe"
             pretrained : "/scratch/ml/zhangxt/A_Models/stable-diffusion-inpainting"
     crawl_pics:
@@ -173,8 +174,8 @@ BLIP_caption:
     init:
         pretrained_processor: '/home/gaozhi/scratch/blip_captioning_large_weight/processor'
         pretrained_model: '/home/gaozhi/scratch/blip_captioning_large_weight/model'
-        # pretrained_processor: "Salesforce/blip-image-captioning-large"   
-	    # pretrained_processor: "Salesforce/blip-image-captioning-large"
+        # pretrained_processor: "Salesforce/blip-image-captioning-large" 
+        # pretrained_model: "Salesforce/blip-image-captioning-large"
 
 
 LIST:
@@ -189,7 +190,7 @@ I2T:
         pretrained_processor: '/home/gaozhi/scratch/blip_captioning_large_weight/processor'
         pretrained_model: '/home/gaozhi/scratch/blip_captioning_large_weight/model' 
         # pretrained_processor: "Salesforce/blip-image-captioning-large"   
-	    # pretrained_processor: "Salesforce/blip-image-captioning-large"
+        # pretrained_processor: "Salesforce/blip-image-captioning-large"
 
 Text_Feature:
     init:

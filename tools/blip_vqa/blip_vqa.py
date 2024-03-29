@@ -1,7 +1,5 @@
-
-from clova.tools.blip_vqa.med import BertConfig, BertLMHeadModel, BertEncoderModel
-from clova.tools.blip_vqa.blip import create_vit, init_tokenizer, load_checkpoint
-from clova.tools.tool_utils import get_config_path, load_config
+from tools.blip_vqa.med import BertConfig, BertLMHeadModel, BertEncoderModel
+from tools.blip_vqa.blip import create_vit, init_tokenizer, load_checkpoint
 
 import torch
 from torch import nn
@@ -31,15 +29,14 @@ class BLIP_VQA(nn.Module):
         
         self.visual_encoder, vision_width = create_vit(vit, image_size, vit_grad_ckpt, vit_ckpt_layer, drop_path_rate=0.1)
         self.tokenizer = init_tokenizer(init_path = init_tokenizer_path)  
-        config = load_config(get_config_path())["BLIP_VQA_BERT"]
-        config['layer_norm_eps'] = float(config['layer_norm_eps'])
-        encoder_config = BertConfig.from_dict(config)
+        
+        encoder_config = BertConfig.from_json_file(med_config)
         encoder_config.encoder_width = vision_width
         self.text_encoder = BertEncoderModel(config=encoder_config, add_pooling_layer=False) 
         
-        decoder_config = BertConfig.from_dict(config)        
+        decoder_config = BertConfig.from_json_file(med_config)        
         self.text_decoder = BertLMHeadModel(allconfig=allconfig, config=decoder_config)  
-        
+
     def init_prompt(self):
         self.text_decoder.init_prompt()      
 
@@ -62,13 +59,11 @@ class BLIP_VQA(nn.Module):
             answer.input_ids[:,0] = self.tokenizer.bos_token_id
             answer_targets = answer.input_ids.masked_fill(answer.input_ids == self.tokenizer.pad_token_id, -100)      
 
-            # print ('---------train text_encoder----------')
             question_output = self.text_encoder(question.input_ids, 
                                                 attention_mask = question.attention_mask, 
                                                 encoder_hidden_states = image_embeds,
                                                 encoder_attention_mask = image_atts,                             
                                                 return_dict = True)    
-            # print ('---------train text_encoder----------')
 
             question_states = []                
             question_atts = []  
@@ -80,7 +75,6 @@ class BLIP_VQA(nn.Module):
             question_states = torch.stack(question_states,0)    
             question_atts = torch.stack(question_atts,0)     
 
-            # print ('---------train text_decoder----------')
             answer_output = self.text_decoder(answer.input_ids, 
                                               attention_mask = answer.attention_mask, 
                                               encoder_hidden_states = question_states,
@@ -92,7 +86,6 @@ class BLIP_VQA(nn.Module):
                                               prompt_use=prompt_use,
                                               outer_prompt=outer_prompt,
                                              )      
-            # print ('---------train text_decoder----------')
 
             # loss = weights * answer_output.loss
             loss = answer_output.loss
@@ -190,7 +183,7 @@ class BLIP_VQA(nn.Module):
 def blip_vqa(allconfig, pretrained='',**kwargs):
     model = BLIP_VQA(allconfig,**kwargs)
     if pretrained:
-        model, msg = load_checkpoint(model,pretrained)
+        model,msg = load_checkpoint(model,pretrained)
 #         assert(len(msg.missing_keys)==0)
     return model  
 
@@ -202,5 +195,3 @@ def tile(x, dim, n_tile):
     x = x.repeat(*(repeat_idx))
     order_index = torch.LongTensor(np.concatenate([init_dim * np.arange(n_tile) + i for i in range(init_dim)]))
     return torch.index_select(x, dim, order_index.to(x.device))    
-        
-        

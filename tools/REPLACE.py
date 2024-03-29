@@ -145,7 +145,7 @@ class ReplaceInterpreter():
             "initializer_token": new_token,
             "placeholder_token":  new_token,
             "train_data_dir": f"{crawl_path}/{prompt}",
-            # "output_dir": "./embeddings/test_breadfruit_tree_sd_3000_5e-3_1.bin"
+            "output_dir": "./embeddings/test_breadfruit_tree_sd_3000_5e-3_1.bin"
         }
         accelerator_project_config = ProjectConfiguration(total_limit=None)
         accelerator = Accelerator(
@@ -295,9 +295,20 @@ class ReplaceInterpreter():
  
                 # logs = {"loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
         
+
         learned_embeds = accelerator.unwrap_model(text_encoder).get_input_embeddings().weight[placeholder_token_id]
         self.token_pool.append(new_token)
         self.emb_pool.append(learned_embeds.detach().cpu())
+
+        # save_path = cfg["output_dir"]
+        # self.save_progress(text_encoder, placeholder_token_id, accelerator, cfg, save_path)
+
+
+    def save_progress(self,text_encoder, placeholder_token_id, accelerator, cfg, save_path):
+        # logger.info("Saving embeddings")
+        learned_embeds = accelerator.unwrap_model(text_encoder).get_input_embeddings().weight[placeholder_token_id]
+        learned_embeds_dict = {cfg["placeholder_token"]: learned_embeds.detach().cpu()}
+        torch.save(learned_embeds_dict, save_path)        
         
     def parse(self,prog_step):
         parse_result = parse_step(prog_step.prog_str)
@@ -354,11 +365,16 @@ class ReplaceInterpreter():
             learned_embeds = {modified_token: self.emb_pool[index]}
             # learned_token = torch.load(learned_embeds)
             self.pipe.load_textual_inversion(learned_embeds, token=modified_token)
+
+            # embeds_path = "./embeddings/test_breadfruit_tree_sd_3000_5e-3_1.bin"
+            # self.pipe.load_textual_inversion(embeds_path, token=modified_token)
+
         
         mask,_,_ = self.resize_and_pad(mask)
         init_img,W,H = self.resize_and_pad(img)
         new_img = self.pipe(
-            prompt=prompt,
+            # prompt=prompt,
+            prompt=modified_token,
             image=init_img,
             mask_image=mask,
             # strength=0.98,
