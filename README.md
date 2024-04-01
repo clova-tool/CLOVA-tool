@@ -127,7 +127,9 @@ We thank the following codebases.
 + [BLIP](https://github.com/salesforce/BLIP) Our prompt tuning scheme is evaluated and developed firstly on the BLIP code.
 + [Textual Inversion](https://github.com/rinongal/textual_inversion) The prompt tuning scheme for Stable Diffusion is based on Textual Inversion.
  
+# License
 
+code: [Apache](LICENSE)
 
 # Citation
 If you find this code useful in your research, please consider citing:
