@@ -121,7 +121,7 @@ zhi.gao@pku.edu.cn, gaozhi_2017@126.com
 
 # Acknowledgement
 
-We thank for the following codebases.
+We thank the following codebases.
 
 + [VISPROG](https://github.com/allenai/visprog) The architecture of our code is based on VISPROG (CVPR2023 best paper). Don't forget to check this great open-source work if you don't know it before!
 + [BLIP](https://github.com/salesforce/BLIP) Our prompt tuning scheme is evaluated and developed firstly on the BLIP code.
