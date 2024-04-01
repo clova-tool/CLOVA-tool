@@ -132,10 +132,10 @@ We thank for the following codebases.
 # Citation
 If you find this code useful in your research, please consider citing:
 ```
-@article{gao2023clova,
+@inproceedings{gao2024clova,
   title={CLOVA: A closed-loop visual assistant with tool usage and update},
   author={Gao, Zhi and Du, Yuntao and Zhang, Xintong and Ma, Xiaojian and Han, Wenjuan and Zhu, Song-Chun and Li, Qing},
-  journal={arXiv preprint arXiv:2312.10908},
-  year={2023}
+  booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR)},
+  year={2024}
 }
 ```
