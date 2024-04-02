@@ -11,8 +11,8 @@ LLaMA:
         num_start_experience: 25
 
 OpenAI:
-    base_url: 'https://one.aiskt.com/v1'
-    api_key: 'sk-kvFQx9eTmj2xokHW6602152c4c664911B27e1f44Af31E6Bd'
+    base_url: ''
+    api_key: 'sk-'
 
 # Task_type: 'gqa'
 # Task_type: 'nlvr'
